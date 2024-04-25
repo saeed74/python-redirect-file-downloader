@@ -5,7 +5,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.firefox import GeckoDriverManager
 
 def download(url, name, path):
 
@@ -42,7 +42,8 @@ def download(url, name, path):
             print("wait 3 second and check cotent type after that")
 
             # Set up the WebDriver (you can choose Chrome, Firefox, etc.)
-            driver = webdriver.Chrome(ChromeDriverManager().install())  # Replace with your preferred driver
+            #driver = webdriver.Chrome(executable_path=ChromeDriverManager().install()) 
+            driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
             driver.get(url)
 
             # Wait for 3 second (adjust as needed for JavaScript redirect)
