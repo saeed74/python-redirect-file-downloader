@@ -1,7 +1,10 @@
 import requests
 import os 
 import time
-from bs4 import BeautifulSoup
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 
 def download(url, name, path):
 
@@ -36,19 +39,20 @@ def download(url, name, path):
         if 'text/html' in content_type:
 
             print("wait 3 second and check cotent type after that")
-            time.sleep(3)
 
-            new_content_type = response.headers.get('content-type', '').lower()
+            # Set up the WebDriver (you can choose Chrome, Firefox, etc.)
+            driver = webdriver.Chrome()  # Replace with your preferred driver
+            driver.get(url)
 
-            # Example: Use BeautifulSoup to parse the HTML content
-            soup = BeautifulSoup(response.content, 'html.parser')
-            # Additional logic for waiting (e.g., wait for specific elements)
+            # Wait for 3 second (adjust as needed for JavaScript redirect)
+            driver.implicitly_wait(3)
 
-            # Example: Extract the new redirect URL (if any)
-            new_url = soup.find('meta', attrs={'http-equiv': 'refresh'})
+            # Get the current URL after the redirect
+            new_url = driver.current_url
+            print(f"Found new redirect URL: {new_url}")
+
             if new_url:
-                new_url = new_url['content'].split(';url=')[1]
-                print(f"Found new redirect URL: {new_url}")
+                print("Ok! Found new redirect URL")
             else:
                 print(f"We didnt Found new redirect URL -_- : {new_url}")
 
