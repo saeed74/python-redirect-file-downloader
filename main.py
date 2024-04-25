@@ -1,9 +1,6 @@
 import requests
 import os 
-import time
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-#from webdriver_manager.chrome import ChromeDriverManager
 
 def download(url, name, path):
 
@@ -40,13 +37,7 @@ def download(url, name, path):
             print("wait 3 second and check cotent type after that")
 
             # Set up the WebDriver (you can choose Chrome, Firefox, etc.)
-            #driver = webdriver.Chrome(executable_path=ChromeDriverManager().install()) 
-            #service = Service(executable_path=GeckoDriverManager().install())
-            #options = webdriver.FirefoxOptions()
-
-            service = Service(executable_path="/usr/bin/google-chrome")
-            options = webdriver.ChromeOptions()
-            driver = webdriver.Chrome(service=service, options=options)
+            driver = webdriver.PhantomJS()
             driver.get(url)
 
             # Wait for 3 second (adjust as needed for JavaScript redirect)
@@ -60,6 +51,8 @@ def download(url, name, path):
                 print("Ok! Found new redirect URL")
             else:
                 print(f"We didnt Found new redirect URL -_- : {new_url}")
+
+            driver.quit()
 
         else:
 
