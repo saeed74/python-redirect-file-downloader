@@ -3,7 +3,7 @@ import os
 import time
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
+#from webdriver_manager.chrome import ChromeDriverManager
 
 def download(url, name, path):
 
@@ -44,7 +44,7 @@ def download(url, name, path):
             #service = Service(executable_path=GeckoDriverManager().install())
             #options = webdriver.FirefoxOptions()
 
-            service = Service(executable_path=ChromeDriverManager().install())
+            service = Service(executable_path="/usr/bin/google-chrome")
             options = webdriver.ChromeOptions()
             driver = webdriver.Chrome(service=service, options=options)
             driver.get(url)
