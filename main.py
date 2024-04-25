@@ -1,5 +1,6 @@
 import requests
 import os 
+import time
 
 def download(url, name, path):
 
@@ -18,43 +19,43 @@ def download(url, name, path):
     headers["User-Agent"] = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
 
     try:
+
         response = requests.get(url, stream=True, allow_redirects=True, headers=headers)
         response.raise_for_status()  # Raise an exception if the request was unsuccessful
+        
         print('HERE')
-        print("our header : ",headers)
-        print("respone headers  : ", response.headers)
-        if response.status_code == 301 or response.status_code == 302:
-            print("status : ", response.status_code)
-            print("headers 2 : ", response.headers)
+        #print("our header : ",headers)
+        print("respone_headers : ", response.headers)
+        print("status_code: ", response.status_code)
 
-            new_url = response.headers['Location']
-            response = requests.get(new_url, stream=True, allow_redirects=True, headers=headers)
-            print("new status code : ", response.status_code)
-            print("headers 3 : ", response.headers)
+        content_type = response.headers.get('content-type', '').lower()
 
-            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+        print("response content_type: ", content_type)
 
-        # Save the file in the specified directory
-        output_path = os.path.join(path, name)
-        with open(output_path , 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
-        print(f"File {name} downloaded successfully.")
-    except requests.RequestException as e:
-        print(f"Error downloading file from {url}: {e}")
-        print("lets try with http..")
-        url2 = url.replace('https://','http://')
-        try:
-            response = requests.get(url2, stream=True, headers=headers)
-            response.raise_for_status()  # Raise an exception if the request was unsuccessful
+        if 'text/html' in content_type:
+
+            print("response content_type: ", content_type)
+            print("wait 5 second and check cotent type after that")
+            time.sleep(5)
+
+            new_content_type = response.headers.get('content-type', '').lower()
+
+            print("new_content_type:" , new_content_type)
+
+        else:
+
+            print("direct download. content_type is: ", content_type)
             # Save the file in the specified directory
             output_path = os.path.join(path, name)
             with open(output_path , 'wb') as f:
                 for chunk in response.iter_content(chunk_size=8192):
                     f.write(chunk)
-            print(f"File {name} downloaded successfully. (2nd way)")
-        except requests.RequestException as e:
-            print(f"(2nd way http) Error downloading file from {url}: {e}")
+            print(f"File {name} downloaded successfully.")
+
+        
+
+    except requests.RequestException as e:
+        print(f"Error downloading file from {url}: {e}")
 
 
 
