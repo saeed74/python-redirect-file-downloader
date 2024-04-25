@@ -2,9 +2,7 @@ import requests
 import os 
 import time
 from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.firefox.service import Service
 from webdriver_manager.firefox import GeckoDriverManager
 
 def download(url, name, path):
@@ -43,7 +41,9 @@ def download(url, name, path):
 
             # Set up the WebDriver (you can choose Chrome, Firefox, etc.)
             #driver = webdriver.Chrome(executable_path=ChromeDriverManager().install()) 
-            driver = webdriver.Firefox(executable_path=GeckoDriverManager().install())
+            service = Service(executable_path=GeckoDriverManager().install())
+            options = webdriver.FirefoxOptions()
+            driver = webdriver.Firefox(service=service, options=options)
             driver.get(url)
 
             # Wait for 3 second (adjust as needed for JavaScript redirect)
