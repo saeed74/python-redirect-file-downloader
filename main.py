@@ -1,6 +1,7 @@
 import requests
 import os 
 import time
+from bs4 import BeautifulSoup
 
 def download(url, name, path):
 
@@ -34,13 +35,22 @@ def download(url, name, path):
 
         if 'text/html' in content_type:
 
-            print("response content_type: ", content_type)
-            print("wait 5 second and check cotent type after that")
-            time.sleep(5)
+            print("wait 3 second and check cotent type after that")
+            time.sleep(3)
 
             new_content_type = response.headers.get('content-type', '').lower()
 
-            print("new_content_type:" , new_content_type)
+            # Example: Use BeautifulSoup to parse the HTML content
+            soup = BeautifulSoup(response.content, 'html.parser')
+            # Additional logic for waiting (e.g., wait for specific elements)
+
+            # Example: Extract the new redirect URL (if any)
+            new_url = soup.find('meta', attrs={'http-equiv': 'refresh'})
+            if new_url:
+                new_url = new_url['content'].split(';url=')[1]
+                print(f"Found new redirect URL: {new_url}")
+            else:
+                print(f"We didnt Found new redirect URL -_- : {new_url}")
 
         else:
 
