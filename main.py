@@ -1,6 +1,6 @@
 import requests
 import os 
-from selenium import webdriver
+from phantomjs import Phantom
 
 def download(url, name, path):
 
@@ -36,9 +36,7 @@ def download(url, name, path):
 
             print("wait 3 second and check cotent type after that")
 
-            # Set up the WebDriver (you can choose Chrome, Firefox, etc.)
-            driver = webdriver.PhantomJS()
-            driver.get(url)
+            phantom = Phantom()
 
             # Wait for 3 second (adjust as needed for JavaScript redirect)
             driver.implicitly_wait(3)
@@ -71,5 +69,5 @@ def download(url, name, path):
 
 
 
-#download("https://appchemistry.dabirmodern.ir/files/export-files/keyas(10).jks","keyas(10).jks","")
-download("https://appchemistry.dabirmodern.ir/files/test/keyas.jks","keyas.jks","")
+#download("https://appchemistry.dabirmodern.ir/files/test/keyas.jks","keyas.jks","")
+download("https://app.academyhaft.ir/files/export-files/yekanbakh-regular(6).ttf","yekan.ttf","")
