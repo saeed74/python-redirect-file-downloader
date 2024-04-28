@@ -1,6 +1,6 @@
 import requests
 import os 
-from phantomjs import Phantom
+import urllib.request
 
 def download(url, name, path):
 
@@ -36,30 +36,31 @@ def download(url, name, path):
 
             print("wait 3 second and check cotent type after that")
 
-            phantom = Phantom()
+            # phantom = Phantom()
 
-            # Wait for 3 second (adjust as needed for JavaScript redirect)
-            driver.implicitly_wait(3)
+            # # Wait for 3 second (adjust as needed for JavaScript redirect)
+            # driver.implicitly_wait(3)
 
-            # Get the current URL after the redirect
-            new_url = driver.current_url
-            print(f"Found new redirect URL: {new_url}")
+            # # Get the current URL after the redirect
+            # new_url = driver.current_url
+            # print(f"Found new redirect URL: {new_url}")
 
-            if new_url:
-                print("Ok! Found new redirect URL")
-            else:
-                print(f"We didnt Found new redirect URL -_- : {new_url}")
+            # if new_url:
+            #     print("Ok! Found new redirect URL")
+            # else:
+            #     print(f"We didnt Found new redirect URL -_- : {new_url}")
 
-            driver.quit()
+            # driver.quit()
 
         else:
 
             print("direct download. content_type is: ", content_type)
             # Save the file in the specified directory
+
             output_path = os.path.join(path, name)
-            with open(output_path , 'wb') as f:
-                for chunk in response.iter_content(chunk_size=8192):
-                    f.write(chunk)
+
+            urllib.request.urlretrieve(url, output_path)
+
             print(f"File {name} downloaded successfully.")
 
         
